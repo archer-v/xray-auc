@@ -50,13 +50,14 @@ func main() {
 	addUserOp.String(&c.Password, "s", "password", "user secret (password for shadowsocks or id for vless/vmess/trojan)")
 	addUserOp.String(&c.Flow, "", "flow", "flow (vless proto only)")
 	addUserOp.String(&c.Cipher, "c", "cipher", "cipher (shadowsocks proto only, optional)")
+	addUserOp.String(&c.Tag, "t", "tag", "inbound proxy tag")
 
 	delUserOp := flaggy.NewSubcommand("rmUser")
 	delUserOp.Description = "remove user from an inbound proxy configuration"
 	delUserOp.String(&c.Email, "e", "email", "user email (is used as human id)")
+	delUserOp.String(&c.Tag, "t", "tag", "inbound proxy tag")
 
 	flaggy.String(&c.Host, "a", "addr", "xray server host and port separated with a colon")
-	flaggy.String(&c.Tag, "t", "tag", "proxy tag")
 	flaggy.String(&f, "f", "file", "filepath to json file with array of user records in format: [ { user_options...}, .... {}]")
 
 	flaggy.AttachSubcommand(addUserOp, 1)
