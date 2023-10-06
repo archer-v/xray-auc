@@ -34,3 +34,8 @@ Some peace of code related to grpc api flow was borrowed from https://github.com
     -a --addr      xray server host and port separated with a colon
     -f --file      filepath to json file with array of user records in format: [ { user_options...}, .... {}]
 ```
+
+
+**Build**
+
+```make distro```
