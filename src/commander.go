@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"strings"
 )
 
 type Operation uint
@@ -79,7 +80,13 @@ func ApplyToXray(host string, op Operation, records []UserRecord) (done int, err
 					err = e
 					return
 				} else {
-					if op == OpRemove && s.Code() == codes.Unknown {
+					//strings.Contains()
+					if op == OpAdd && strings.Contains(s.Message(), "already exists") {
+						fmt.Printf("UserRecord [%v] already exists\n", u.Email)
+						done++
+						continue
+					}
+					if op == OpRemove && strings.Contains(s.Message(), "not found") && strings.Contains(s.Message(), "User") {
 						fmt.Printf("UserRecord [%v] doesn't exists or already removed\n", u.Email)
 						done++
 						continue
