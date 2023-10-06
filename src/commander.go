@@ -23,6 +23,16 @@ func (o Operation) String() string {
 	return "undef"
 }
 
+func (o Operation) Stringr() string {
+	if o == OpAdd {
+		return "add"
+	}
+	if o == OpRemove {
+		return "remov"
+	}
+	return "undef"
+}
+
 func ApplyToXray(host string, op Operation, records []UserRecord) (done int, err error) {
 
 	if len(records) == 0 {
@@ -61,7 +71,7 @@ func ApplyToXray(host string, op Operation, records []UserRecord) (done int, err
 		}
 
 		if e == nil {
-			fmt.Printf("UserRecord [%v] has been %ved by api\n", u.Email, op.String())
+			fmt.Printf("UserRecord [%v] has been %ved by api\n", u.Email, op.Stringr())
 			done++
 		} else {
 			if s, ok := status.FromError(e); ok {
@@ -70,12 +80,13 @@ func ApplyToXray(host string, op Operation, records []UserRecord) (done int, err
 					return
 				} else {
 					if op == OpRemove && s.Code() == codes.Unknown {
-						fmt.Printf("UserRecord [%v] doesn't exists or already removed\n", u.Email, op.String())
+						fmt.Printf("UserRecord [%v] doesn't exists or already removed\n", u.Email)
 						done++
+						continue
 					}
 				}
 			}
-			fmt.Printf("Error in %ving the user [%v] by api: %v\n", op.String(), u.Email, e)
+			fmt.Printf("Error on %v the user [%v] by api: %v\n", op.String(), u.Email, e)
 		}
 	}
 	return
