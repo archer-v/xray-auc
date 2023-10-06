@@ -68,6 +68,11 @@ func ApplyToXray(host string, op Operation, records []UserRecord) (done int, err
 				if s.Code() == codes.Unavailable {
 					err = e
 					return
+				} else {
+					if op == OpRemove && s.Code() == codes.Unknown {
+						fmt.Printf("UserRecord [%v] doesn't exists or already removed\n", u.Email, op.String())
+						done++
+					}
 				}
 			}
 			fmt.Printf("Error in %ving the user [%v] by api: %v\n", op.String(), u.Email, e)
