@@ -1,5 +1,5 @@
 # xray-auc
-Simple cmd utility to control xray users from a console
+Simple console utility to manage user accounts of xray server
 
 Supported operations: add user, remove user, get user traffic statistics (in development)
 
